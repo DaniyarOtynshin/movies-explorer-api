@@ -1,6 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
+const auth = require('./middlewares/auth');
+const routes = require('./routes/index');
+
 const app = express();
 
 const { PORT = 3000, DB = 'mongodb://localhost:27017/mestodb' } = process.env;
@@ -10,6 +13,9 @@ mongoose.connect(DB, {
   useCreateIndex: true,
   useFindAndModify: false,
 });
+
+app.use(auth);
+app.use(routes);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
