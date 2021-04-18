@@ -1,5 +1,7 @@
 const User = require('../models/user');
 
+const { NotFoundError } = require('../errors/not-found-err');
+
 const getCurrentProfile = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
