@@ -5,12 +5,10 @@ const ForbiddenError = require('../errors/forbidden-error');
 const ValidationError = require('../errors/validation-err');
 
 const getMovies = (req, res, next) => Movie.find({})
-  .then((movies) => {
-    if (!movies.length) {
-      throw new NotFoundError('Фильмы не найдены');
-    }
-    return res.status(200).send(movies);
+  .orFail(() => {
+    throw new NotFoundError('Фильмы не найдены');
   })
+  .then((movies) => res.status(200).send(movies))
   .catch(next);
 
 const addMovie = (req, res, next) => {

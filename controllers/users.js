@@ -4,11 +4,11 @@ const { NotFoundError } = require('../errors/not-found-err');
 
 const getCurrentProfile = (req, res, next) => {
   User.findById(req.user._id)
+    .orFail(() => {
+      throw new NotFoundError('Пользователь не найден');
+    })
     .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Пользователь не найден');
-      }
-      return res.status(200).send({
+      res.status(200).send({
         email: user.email,
         name: user.name,
       });
