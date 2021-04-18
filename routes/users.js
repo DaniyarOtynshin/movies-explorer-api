@@ -1,6 +1,8 @@
 const usersRouter = require('express').Router();
 
+const { getCurrentProfile, updateCurrentProfile } = require('../controllers/users');
+
 usersRouter.get('/me', getCurrentProfile);
 usersRouter.patch('/me', updateCurrentProfile);
 
-export default usersRouter;
+module.exports = usersRouter;
