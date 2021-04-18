@@ -18,7 +18,7 @@ const userSchema = new Schema({
   },
   name: {
     type: String,
-    required: true,
+    required: [true, 'Поле "name" должно быть заполнено'],
     minlength: [2, 'Минимальная длина поля "name" 2 символа'],
     maxlength: [30, 'Максимальна длина поля "name" 30 символа'],
   },
