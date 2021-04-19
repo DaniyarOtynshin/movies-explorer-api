@@ -16,8 +16,8 @@ const validateId = celebrate({
 const validateUsersBody = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email()
+      .message('Поле "email" должно быть валидным email-адресом')
       .messages({
-        'string.email': 'Поле "email" должно быть валидным email-адресом',
         'string.empty': 'Поле "email" должно быть заполнено',
       }),
     name: Joi.string().required().min(2).max(30)
@@ -86,4 +86,4 @@ module.exports = {
   validateId,
   validateUsersBody,
   validateMoviesBody,
-}
+};

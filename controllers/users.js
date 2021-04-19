@@ -2,6 +2,8 @@ const User = require('../models/user');
 
 const { NotFoundError } = require('../errors/not-found-err');
 
+const saltRounds = 10;
+
 const getCurrentProfile = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(() => {
@@ -40,7 +42,28 @@ const updateCurrentProfile = (req, res, next) => {
     .catch(next);
 };
 
+const createUser = (req, res, next) => {
+  bcrypt.hash(req.body.password, saltRounds)
+    .then((hash) => User.create({
+      email: req.body.email,
+      password: hash,
+    }))
+    .then((user) => {
+      res.status(SUCCESS_CODE_200).send({
+        name: user.name,
+        email: user.email,
+      });
+    })
+    .catch((err) => {
+      if (err.code === 11000) {
+        next(new ConflictError('Email уже занят'));
+      }
+      next(err);
+    });
+};
+
 module.exports = {
+  createUser,
   getCurrentProfile,
   updateCurrentProfile,
 };
