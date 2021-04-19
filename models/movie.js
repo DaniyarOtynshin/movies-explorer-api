@@ -1,4 +1,5 @@
-const { Schema, ObjectId, model } = require('mongoose');
+const { Schema, model } = require('mongoose');
+const { ObjectId } = require('mongoose').Types;
 
 const movieSchema = new Schema({
   country: {

@@ -1,10 +1,10 @@
 const { celebrate, Joi } = require('celebrate');
-const { ObjectId } = require('mongoose');
+const { ObjectId } = require('mongoose').Types;
 const { isURL } = require('validator');
 
 const validateId = celebrate({
   params: Joi.object().keys({
-    id: Joi.string.required().custom((value, helpers) => {
+    id: Joi.string().required().custom((value, helpers) => {
       if (ObjectId.isValid(value)) {
         return value;
       }

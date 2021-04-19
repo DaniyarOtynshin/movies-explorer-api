@@ -2,8 +2,8 @@ require('dotenv').config();
 
 const {
   PORT = 3000,
-  DB = '//localhost:27017/mestodb',
-  JWT_SECRET = 'JWT_SECRET'
+  DB = 'mongodb://localhost:27017/bitfilmsdb',
+  JWT_SECRET = 'JWT_SECRET',
 } = process.env;
 
 module.exports = {
