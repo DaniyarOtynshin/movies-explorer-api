@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const routes = require('./routes/index');
+const { errorHandler } = require('./middlewares/errorHandler');
 
 const app = express();
 
@@ -15,6 +16,6 @@ mongoose.connect(DB, {
 
 app.use(routes);
 
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
-});
+app.use(errorHandler);
+
+app.listen(PORT);
