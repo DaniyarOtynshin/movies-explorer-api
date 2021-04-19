@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const auth = require('./middlewares/auth');
 const routes = require('./routes/index');
 
 const app = express();
@@ -14,7 +13,6 @@ mongoose.connect(DB, {
   useFindAndModify: false,
 });
 
-app.use(auth);
 app.use(routes);
 
 app.listen(PORT, () => {

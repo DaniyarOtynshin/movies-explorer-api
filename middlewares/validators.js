@@ -13,7 +13,23 @@ const validateId = celebrate({
   }),
 });
 
-const validateUsersBody = celebrate({
+const validateUserBody = celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email()
+      .message('Поле "email" должно быть валидным email-адресом')
+      .messages({
+        'string.empty': 'Поле "email" должно быть заполнено',
+      }),
+    name: Joi.string().required().min(2).max(30)
+      .messages({
+        'string.min': 'Минимальная длина поля "name" - 2 символа',
+        'string.max': 'Максимальная длина поля "name" - 30 символов',
+        'string.empty': 'Поле "name" должно быть заполнено',
+      }),
+  }),
+});
+
+const validateNewUserBody = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email()
       .message('Поле "email" должно быть валидным email-адресом')
@@ -82,8 +98,24 @@ const validateMoviesBody = celebrate({
   }),
 });
 
+const validateAuth = celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email()
+      .message('Поле "email" должно быть валидным email-адресом')
+      .messages({
+        'string.empty': 'Поле "email" должно быть заполнено',
+      }),
+    password: Joi.string().required()
+      .messages({
+        'string.empty': 'Поле "password" должно быть заполнено',
+      }),
+  }),
+});
+
 module.exports = {
+  validateAuth,
   validateId,
-  validateUsersBody,
+  validateUserBody,
+  validateNewUserBody,
   validateMoviesBody,
 };
