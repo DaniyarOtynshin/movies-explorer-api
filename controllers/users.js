@@ -1,6 +1,10 @@
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+
 const User = require('../models/user');
 
 const { NotFoundError } = require('../errors/not-found-err');
+const { ConflictError } = require('../errors/conflict-error');
 
 const saltRounds = 10;
 
@@ -47,11 +51,12 @@ const createUser = (req, res, next) => {
     .then((hash) => User.create({
       email: req.body.email,
       password: hash,
+      name: req.body.name,
     }))
     .then((user) => {
-      res.status(SUCCESS_CODE_200).send({
-        name: user.name,
+      res.status(200).send({
         email: user.email,
+        name: user.name,
       });
     })
     .catch((err) => {
@@ -62,7 +67,22 @@ const createUser = (req, res, next) => {
     });
 };
 
+const login = (req, res, next) => {
+  const { email, password } = req.body;
+  return User.findUserByCredentials(email, password)
+    .then((user) => {
+      const token = jwt.sign(
+        { _id: user._id },
+        'jwt_secret',
+        { expiresIn: '7d' },
+      );
+      res.send({ token });
+    })
+    .catch(next);
+};
+
 module.exports = {
+  login,
   createUser,
   getCurrentProfile,
   updateCurrentProfile,

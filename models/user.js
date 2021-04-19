@@ -1,5 +1,8 @@
 const { Schema, model } = require('mongoose');
 const { isEmail } = require('validator');
+const bcrypt = require('bcrypt');
+
+const NotValidTokenError = require('../errors/invalid-token-err');
 
 const userSchema = new Schema({
   email: {
@@ -23,5 +26,21 @@ const userSchema = new Schema({
     maxlength: [30, 'Максимальна длина поля "name" 30 символа'],
   },
 });
+
+userSchema.statics.findUserByCredentials = function innerFindUserByCredentials(email, password) {
+  return this.findOne({ email }).select('+password')
+    .then((user) => {
+      if (!user) {
+        return Promise.reject(new NotValidTokenError('Неправильные почта или пароль'));
+      }
+      return bcrypt.compare(password, user.password)
+        .then((matched) => {
+          if (!matched) {
+            return Promise.reject(new NotValidTokenError('Неправильные почта или пароль'));
+          }
+          return user;
+        });
+    });
+};
 
 module.exports = model('user', userSchema);
