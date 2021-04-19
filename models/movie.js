@@ -19,7 +19,7 @@ const movieSchema = new Schema({
   },
   description: {
     type: String,
-    required: [true, 'Поле "year" должно быть заполнено'],
+    required: [true, 'Поле "description" должно быть заполнено'],
   },
   image: {
     type: String,
