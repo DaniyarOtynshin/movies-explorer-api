@@ -6,6 +6,8 @@ const User = require('../models/user');
 const { NotFoundError } = require('../errors/not-found-err');
 const { ConflictError } = require('../errors/conflict-error');
 
+const { JWT_SECRET } = require('../config');
+
 const saltRounds = 10;
 
 const getCurrentProfile = (req, res, next) => {
@@ -73,7 +75,7 @@ const login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        'jwt_secret',
+        JWT_SECRET,
         { expiresIn: '7d' },
       );
       res.send({ token });

@@ -1,20 +1,32 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 const { errors } = require('celebrate');
 
 const routes = require('./routes/index');
 const { errorHandler } = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { PORT, DB } = require('./config');
 
 const app = express();
-
-const { PORT = 3000, DB = 'mongodb://localhost:27017/mestodb' } = process.env;
 
 mongoose.connect(DB, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
 });
+
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+});
+
+app.use('/api/', apiLimiter);
+app.use(helmet());
+
+app.use(bodyParser.json());
 
 app.use(requestLogger);
 
