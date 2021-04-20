@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const { errors } = require('celebrate');
 
 const routes = require('./routes/index');
 const errorHandler = require('./middlewares/errorHandler');
@@ -34,6 +35,7 @@ app.use(routes);
 
 app.use(errorLogger);
 
+app.use(errors());
 app.use(errorHandler);
 
 app.listen(PORT);

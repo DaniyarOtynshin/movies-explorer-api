@@ -42,6 +42,10 @@ const validateNewUserBody = celebrate({
         'string.max': 'Максимальная длина поля "name" - 30 символов',
         'string.empty': 'Поле "name" должно быть заполнено',
       }),
+    password: Joi.string().required()
+      .messages({
+        'string.empty': 'Поле "password" должно быть заполнено',
+      }),
   }),
 });
 
@@ -79,14 +83,18 @@ const validateMoviesBody = celebrate({
       }
       return helpers.message('Поле "trailer" должно быть url-адресом');
     }),
-    thimbnail: Joi.string().required().custom((value, helpers) => {
-      if (isURL(value)) {
-        return value;
-      }
-      return helpers.message('Поле "thimbnail" должно быть url-адресом');
-    }),
+    thumbnail: Joi.string().required()
+      .messages({
+        'string.empty': 'Поле "description" должно быть заполнено',
+      })
+      .custom((value, helpers) => {
+        if (isURL(value)) {
+          return value;
+        }
+        return helpers.message('Поле "thumbnail" должно быть url-адресом');
+      }),
     owner: Joi.string().alphanum().hex().length(24),
-    movieId: Joi.string().alphanum().hex().length(24),
+    movieId: Joi.number(),
     nameRU: Joi.string().required()
       .messages({
         'string.empty': 'Поле "nameRU" должно быть заполнено',

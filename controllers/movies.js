@@ -29,15 +29,7 @@ const deleteMovie = (req, res, next) => {
         throw new ForbiddenError('Невозможно удалить чужой фильм');
       }
       Movie.deleteOne({ _id: req.params.id })
-        .then((response) => {
-          if (!req.params.movieId) {
-            throw new ValidationError('Id фильма невалидный');
-          }
-          if (response.n === 0) {
-            throw new NotFoundError('Фильм не найден');
-          }
-          return res.status(200).send(response);
-        })
+        .then((response) => res.status(200).send(response))
         .catch(next);
     })
     .catch(next);

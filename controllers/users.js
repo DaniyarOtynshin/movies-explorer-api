@@ -3,8 +3,8 @@ const bcrypt = require('bcrypt');
 
 const User = require('../models/user');
 
-const { NotFoundError } = require('../errors/not-found-err');
-const { ConflictError } = require('../errors/conflict-error');
+const NotFoundError = require('../errors/not-found-err');
+const ConflictError = require('../errors/conflict-error');
 
 const { JWT_SECRET } = require('../config');
 
@@ -36,16 +36,19 @@ const updateCurrentProfile = (req, res, next) => {
       new: true,
     },
   )
-    .orFail(() => {
-      throw new NotFoundError('Пользователь не найден');
-    })
     .then((user) => {
       res.status(200).send({
         email: user.email,
         name: user.name,
       });
     })
-    .catch(next);
+    .catch((err) => {
+      if (err.code === 11000) {
+        const error = new ConflictError('Email уже занят');
+        next(error);
+      }
+      next(err);
+    });
 };
 
 const createUser = (req, res, next) => {
@@ -63,7 +66,8 @@ const createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        next(new ConflictError('Email уже занят'));
+        const error = new ConflictError('Email уже занят');
+        next(error);
       }
       next(err);
     });
