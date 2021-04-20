@@ -1,6 +1,12 @@
+const { isCelebrateError } = require('celebrate');
+
 const errorHandler = (err, req, res, next) => {
   const statusCode = err.statusCode || 500;
-  const message = statusCode === 500 ? 'На сервере произошла ошибка' : err.message;
+  let message = statusCode === 500 ? 'На сервере произошла ошибка' : err.message;
+
+  if (isCelebrateError(err)) {
+    message = 'Ошибка валидации';
+  }
 
   res.status(statusCode).send({ message });
   next();

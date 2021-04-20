@@ -16,7 +16,7 @@ router.use(auth);
 router.use('/users', usersRouter);
 router.use('/movies', moviesRouter);
 
-router.use(() => {
+router.use('/*', () => {
   throw new NotFoundError('Страница по указанному маршруту не найдена');
 });
 
