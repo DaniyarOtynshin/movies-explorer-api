@@ -59,7 +59,7 @@ const createUser = (req, res, next) => {
       name: req.body.name,
     }))
     .then((user) => {
-      res.status(200).send({
+      res.send({
         email: user.email,
         name: user.name,
       });
@@ -68,8 +68,9 @@ const createUser = (req, res, next) => {
       if (err.code === 11000) {
         const error = new ConflictError('Email уже занят');
         next(error);
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 

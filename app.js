@@ -24,7 +24,7 @@ const apiLimiter = rateLimit({
   max: 100,
 });
 
-app.use('/api/', apiLimiter);
+app.use('/', apiLimiter);
 app.use(helmet());
 
 app.use(bodyParser.json());
