@@ -20,6 +20,8 @@ mongoose.connect(DB, {
   useUnifiedTopology: true,
 });
 
+app.use(cors());
+
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -27,8 +29,6 @@ const apiLimiter = rateLimit({
 
 app.use('/', apiLimiter);
 app.use(helmet());
-
-app.use(cors());
 
 app.use(bodyParser.json());
 
