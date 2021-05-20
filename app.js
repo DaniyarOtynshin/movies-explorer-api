@@ -11,14 +11,9 @@ const errorHandler = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT, DB } = require('./config');
 
-const options = {
-  origin: '*',
-  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'HEAD'],
-};
-
 const app = express();
 
-app.use(cors(options));
+app.use(cors());
 
 mongoose.connect(DB, {
   useNewUrlParser: true,
