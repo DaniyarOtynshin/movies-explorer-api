@@ -46,4 +46,4 @@ app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
 
-app.listen(3001); //PORT
+app.listen(PORT);
