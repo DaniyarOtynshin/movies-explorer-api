@@ -4,11 +4,17 @@ const bodyParser = require('body-parser');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
+const cors = require('cors');
 
 const routes = require('./routes/index');
 const errorHandler = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT, DB } = require('./config');
+
+const options = {
+  origin: '*',
+  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'HEAD'],
+};
 
 const app = express();
 
@@ -26,6 +32,15 @@ const apiLimiter = rateLimit({
 
 app.use('/', apiLimiter);
 app.use(helmet());
+
+app.use(cors(options));
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, HEAD, PUT, PATCH, POST, DELETE');
+  next();
+});
 
 app.use(bodyParser.json());
 

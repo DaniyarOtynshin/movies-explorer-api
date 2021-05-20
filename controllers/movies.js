@@ -4,18 +4,15 @@ const NotFoundError = require('../errors/not-found-err');
 const ForbiddenError = require('../errors/forbidden-error');
 
 const getMovies = (req, res, next) => Movie.find({})
-  .orFail(() => {
-    throw new NotFoundError('Фильмы не найдены');
-  })
   .then((movies) => res.status(200).send(movies))
   .catch(next);
 
 const addMovie = (req, res, next) => {
-  Movie.create({ ...req.body, owner: req.user._id })
-    .then((movie) => {
-      res.status(200).send(movie);
-    })
-    .catch(next);
+    Movie.create({ ...req.body, owner: req.user._id })
+        .then((movie) => {
+            res.status(200).send(movie);
+        })
+        .catch(next);
 };
 
 const deleteMovie = (req, res, next) => {
