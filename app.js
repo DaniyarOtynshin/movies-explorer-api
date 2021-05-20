@@ -21,7 +21,7 @@ mongoose.connect(DB, {
 });
 
 const options = {
-  origin: '*',
+  origin: ['https://filmderdi-zerttewsi.nomoredomains.icu', 'https://api.filmderdi-zerttewsi.nomoredomains.icu'],
   methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'HEAD'],
 };
 
@@ -46,4 +46,4 @@ app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
 
-app.listen(3001); //PORT
+app.listen(PORT);
