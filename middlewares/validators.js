@@ -85,7 +85,7 @@ const validateMoviesBody = celebrate({
     }),
     thumbnail: Joi.string().required()
       .messages({
-        'string.empty': 'Поле "description" должно быть заполнено',
+        'string.empty': 'Поле "thumbnail" должно быть заполнено',
       })
       .custom((value, helpers) => {
         if (isURL(value)) {
