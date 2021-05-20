@@ -20,7 +20,12 @@ mongoose.connect(DB, {
   useUnifiedTopology: true,
 });
 
-app.use(cors());
+const options = {
+  origin: 'https://filmderdi-zerttewsi.nomoredomains.icu, https://api.filmderdi-zerttewsi.nomoredomains.icu',
+  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'HEAD'],
+};
+
+app.use(cors(options));
 
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -41,4 +46,4 @@ app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
 
-app.listen(3001); //PORT
+app.listen(PORT);
