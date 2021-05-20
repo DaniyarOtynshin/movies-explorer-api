@@ -18,6 +18,8 @@ const options = {
 
 const app = express();
 
+app.use(cors(options));
+
 mongoose.connect(DB, {
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -32,15 +34,6 @@ const apiLimiter = rateLimit({
 
 app.use('/', apiLimiter);
 app.use(helmet());
-
-app.use(cors(options));
-
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.header('Access-Control-Allow-Methods', 'GET, HEAD, PUT, PATCH, POST, DELETE');
-  next();
-});
 
 app.use(bodyParser.json());
 
