@@ -13,8 +13,6 @@ const { PORT, DB } = require('./config');
 
 const app = express();
 
-app.use(cors());
-
 mongoose.connect(DB, {
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -29,6 +27,8 @@ const apiLimiter = rateLimit({
 
 app.use('/', apiLimiter);
 app.use(helmet());
+
+app.use(cors());
 
 app.use(bodyParser.json());
 
