@@ -21,11 +21,14 @@ mongoose.connect(DB, {
 });
 
 const options = {
-  origin: 'https://filmderdi-zerttewsi.nomoredomains.icu',
-  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'HEAD'],
+  origin: ['*'],
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
 };
 
-app.use(cors(options));
+app.use('*', cors(options));
 
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
