@@ -25,7 +25,7 @@ const options = {
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
 };
 
-app.use('*', cors(options));
+app.use(cors(options));
 
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
