@@ -21,11 +21,9 @@ mongoose.connect(DB, {
 });
 
 const options = {
-  origin: ['*'],
+  origin: ['https://filmderdi-zerttewsi.nomoredomains.icu', 'https://api.filmderdi-zerttewsi.nomoredomains.icu'],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
+  credentials: true,
 };
 
 app.use('*', cors(options));
